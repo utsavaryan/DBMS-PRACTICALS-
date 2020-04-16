@@ -1,0 +1,59 @@
+2.
+   mysql> create database CSStudent;
+   mysql> use CSStudent;
+
+   mysql> create table PersonalInformation(
+    -> RollNo int(8) primary key,
+    -> Name char(30) not null,
+    -> DOB date not null,
+    -> Address varchar(70) not null,
+    -> Marksin12th int(2) not null,
+    -> PhoneNumber Varchar(10) not null);
+
+   mysql> create table PaperDetails(
+    -> PaperCode int(8) primary key,
+    -> NameofPaper char(30) unique);
+
+   mysql> create table AcademicDetails(
+    -> RollNo int(8) primary key,
+    -> Papercode int(8) not null,
+    -> Attendence int(3) not null,
+    -> Marksinternal int(3) not null,
+    -> foreign key(rollno) references personalinformation(rollno),
+    -> foreign key(papercode) references Paperdetails(papercode));
+
+a.)
+    Primary key - •Rollno in table personalinformartion
+                  •Papercode in table Paperdetails
+    Foreign key - •Rollno in table AcademicDetails
+                  •Papercode in table AcademicDetails
+
+    mysql> insert into personalinformation values(2301,"Samarth Rawal",'2001-06-27',"Punjab",93,9999965450);
+    mysql> insert into personalinformation values(2302,"Shivam Pal",'2001-08-06',"UP",97,9542659268);
+    mysql> insert into personalinformation values(2303,"Palak Nehra",'2000-02-05',"Delhi",84,9977654326);
+    mysql> insert into personalinformation values(2304,"Ansh Tangri",'2001-07-25',"Delhi",93,9876431990);
+    mysql> insert into personalinformation values(2305,"Tushar Sehgal",'2000-02-09',"Delhi",99,9097894210);
+
+    mysql> insert into paperdetails value(1,"Managerial Economics");
+    mysql> insert into paperdetails value(2,"English Communication");
+    mysql> insert into paperdetails value(3,"Introduction to Accountancy");
+    mysql> insert into paperdetails value(4,"Environmental Studies");
+    mysql> insert into paperdetails value(5,"Database management system");
+
+    mysql> insert into Academicdetails values(2301,765,93,22);
+    mysql> insert into Academicdetails values(2302,462,97,24);
+    mysql> insert into Academicdetails values(2303,975,84,15);
+    mysql> insert into Academicdetails values(2304,213,93,19);
+    mysql> insert into Academicdetails values(2305,462,99,25);
+
+b.)
+  mysql> select pd.papercode, pd.nameofpaper, pi.name from paperdetails as pd, personalinformation as pi where papercode=2 and pi.rollno in(select rollno from academicdetails where papercode=2 and attendence>75 and marks>60);
+
+c.)
+  mysql> select name from personalinformation as pi, academicdetails as ad where pi.rollno=ad.rollno and ad.marks>60 and ad.papercode=1 and pi.Address="Delhi";
+
+d.)
+  mysql> select pi.name, ad.attendence, ad.marks from personalinformation as pi, academicdetails as ad where pi.rollno=ad.rollno;
+
+e.)
+  mysql> select name from personalinformation as pi, academicdetails as ad where pi.rollno=(select rollno from academicdetails where marks=(select max(marks) from academicdetails));
