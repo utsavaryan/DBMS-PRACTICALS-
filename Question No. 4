@@ -1,0 +1,92 @@
+4.
+    mysql> create database employees;
+    mysql> use employees;
+ 
+    mysql> create table employee(
+    -> Person_name varchar(30) primary key,
+    -> Street varchar(40) not null,
+    -> city varchar(15) not null);
+
+    mysql> create table Works(
+    -> Person_name  char(30),
+    -> Company_name varchar(30),
+    -> Salary decimal(8,2),
+    -> foreign key(Person_name) references employee(Person_name),
+    -> foreign key(Company_name) references Company(Company_name));
+
+    mysql> create table Company(
+    -> Company_name varchar(30) Primary key,
+    -> City char(15));
+
+    mysql> Create table manages(
+    -> Person_name char(30),
+    -> Manager_name char(30),
+    -> foreign key(Person_name) references employee(Person_name));
+
+   mysql> insert into employee values("Samarth","F Block Kalkaji","Delhi");
+   mysql> insert into employee values("Ansh Tangri","D Block INA","Delhi");
+   mysql> insert into employee values("Utsav Aryan","C Block South Ex-1","Delhi");
+   mysql> insert into employee values("Ahana","B Block Sec.25","Gurgaon");
+   mysql> insert into employee values("Garima","F block Sec. 19","Gaziabad");
+   mysql> insert into employee values("Rahul"," G block","Noida");
+   mysql> insert into employee values("Harsh","34 A block","Noida");
+   mysql> insert into employee values("Harish","M block","Gurgaon");
+   mysql> insert into employee values("Tushar","67 D block","Lucknow");
+   mysql> insert into employee values("Navya"," C block","Gaziabad");
+
+   mysql> insert into company values("Samha Bank","Delhi");
+   mysql> insert into company values("NCB Bank","Gurgaon");
+   mysql> insert into company values("Axis Bank","Noida");
+   mysql> insert into company values("SBI bank","Lucknow");
+   mysql> insert into company values("HDFC Bank","Gaziabad");
+
+   mysql> insert into works values("Samarth","Samha Bank", 30000);
+   mysql> insert into works values("Ansh Tangri","NCB Bank",15000);
+   mysql> insert into works values("Utsav Aryan","Samha Bank",35000);
+   mysql> insert into works values("Ahana","SBI Bank",6000);
+   mysql> insert into works values("Garima","Axis Bank",20000);
+   mysql> insert into works values("Rahul","NCB Bank",7000);
+   mysql> insert into works values("Harsh","HDFC Bank",8000);
+   mysql> insert into works values("Harish","HDFC Bank",10000);
+   mysql> insert into works values("Tushar","SBI Bank",4000);
+   mysql> insert into works values("Navya","HDFC Bank",18000);
+
+   mysql> insert into manages values("Samarth","Diya Kapoor");
+   mysql> insert into manages values("Ansh Tangri","Diya Kapoor");
+   mysql> insert into manages values("Utsav Aryan","Diya Kapoor");
+   mysql> insert into manages values("Ahana","Raghuveer Singh");
+   mysql> insert into manages values("Garima","Mayur Sinha");
+   mysql> insert into manages values("Rahul","Diya Kapoor");
+   mysql> insert into manages values("Harsh","Vivek Rai");
+   mysql> insert into manages values("Harish","Vivek Rai");
+   mysql> insert into manages values("Tushar","Raghuveer Singh");
+   mysql> insert into manages values("Navya","Vivek Rai");
+
+a.) 
+    Primary Key- •Person_name in table employee
+                 •Company_name in table company
+    Foreign Key- •Person_name in table works
+                 •Company_name in table works
+                 •Person_name in table manages
+
+b.)
+    mysql> alter table employee add column email varchar(20);
+
+c.)
+    mysql> select distinct(manager_name) from manages as m, works as w where m.person_name=w.person_name and (w.company_name="Samha bank" or w.Company_name="NCB Bank");
+
+d.)
+    mysql> select e.Person_name, e.Street, e.City, w.salary from employee as e, works as w where e.person_name=w.person_name and w.company_name="Samha Bank" and w.salary>10000;
+
+e.)
+    mysql> select e.person_name from employee as e, works as w, company as c where e.person_name=w.person_name and e.city=c.city and w.company_name=c.company_name;
+
+f.)
+    mysql> select company_name, max(salary), min(salary), avg(salary) from works group by company_name;
+
+g.)
+    mysql> select company_name, sum(salary), count(company_name) as "number of employees" from works group by company_name;
+
+h.)
+    mysql> select company_name,max(salary) from works;
+
