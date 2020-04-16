@@ -9,12 +9,12 @@
     -> phone char(10) unique,
     -> ReferrerID varchar(20));
 
-mysql> create table BicycleModel(
+    mysql> create table BicycleModel(
     -> ModelNo varchar(10) primary key,
     -> Manufacturer Char(20) not null,
     -> Style Varchar(20) not null);
 
-mysql> create table Bicycle(
+    mysql> create table Bicycle(
     -> BicycleId varchar(20) primary key,
     -> DatePurchased date not null,
     -> Color varhar(10) not null,
@@ -23,7 +23,7 @@ mysql> create table Bicycle(
     -> foreign key(CustId) references customer(CustId),
     -> foreign key(ModelNo) references BicycleModel(ModelNo));
 
-mysql> create table Service(
+   mysql> create table Service(
     -> StartDate date not null,
     -> BicycleId varchar(20) not null,
     -> EndDate date not null,
