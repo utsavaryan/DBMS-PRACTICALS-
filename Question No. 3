@@ -1,0 +1,76 @@
+3.
+    mysql> create database bikes;
+    mysql> use bikes;
+
+    mysql> create table customer(
+    -> CustId varchar(10) primary key,
+    -> email varchar(50) not null,
+    -> Name varchar(30) not null,
+    -> phone char(10) unique,
+    -> ReferrerID varchar(20));
+
+mysql> create table BicycleModel(
+    -> ModelNo varchar(10) primary key,
+    -> Manufacturer Char(20) not null,
+    -> Style Varchar(20) not null);
+
+mysql> create table Bicycle(
+    -> BicycleId varchar(20) primary key,
+    -> DatePurchased date not null,
+    -> Color varhar(10) not null,
+    -> CustId varchar(10) not null,
+    -> ModelNo varchar(10) not null,
+    -> foreign key(CustId) references customer(CustId),
+    -> foreign key(ModelNo) references BicycleModel(ModelNo));
+
+mysql> create table Service(
+    -> StartDate date not null,
+    -> BicycleId varchar(20) not null,
+    -> EndDate date not null,
+    -> Foreign key(BicycleId) references Bicycle(BicycleId));
+
+
+a.)
+   Primary Key - •CustId in table Customer
+                 •ModelNo in table BicycleModel
+                 •BicycleId in table Bicycle
+   Foreign Key- CustId in table Bicycle
+                 •ModelNo in table Bicycle
+                 •BicycleId in table Service
+
+     mysql> insert into customer values(101,"samarth3@gmail.com","Samarth Rawal",9999997654,"C3");
+     mysql> insert into customer values(102,"rahul@gmail.com","Rahul Kapoor",9978654321,"C1");
+     mysql> insert into customer values(103,"garima@gmail.com","Garima Choudhary",9876213342,"C9");
+     mysql> insert into customer values(104,"ahana@gmail.com","Ahana Awasthi",9988887652,"C7");
+     mysql> insert into customer values(105,"ananya@gmail.com","Ananya Sinha",9997865430,"C3");
+
+     mysql> insert into bicyclemodel values("M1","Honda","Bike");
+     mysql> insert into bicyclemodel values("M2","Hero","Scooty");
+     mysql> insert into bicyclemodel values("M3","Bajaj","Bike");
+     mysql> insert into bicyclemodel values("M4","Hero","Bike");
+     mysql> insert into bicyclemodel values("M5","Hero","Sport");
+
+     mysql> insert into bicycle values("B1",'2018-02-21',"blue","101","M1");
+     mysql> insert into bicycle values("B2",'2020-01-22',"Yellow","102","M2");
+     mysql> insert into bicycle values("B3",'2020-05-20',"Black","103","M3");
+     mysql> insert into bicycle values("B4",'2019-07-15',"Red","104","M4");
+     mysql> insert into bicycle values("B5",'2019-08-17',"Red","105","M5");
+
+     mysql> insert into service values('2018-02-21','B1',"2018-02-26");
+     mysql> insert into service values('2020-01-22','B2','2020-01-28');
+     mysql> insert into service values('2020-05-20','B3','2020-05-28');
+     mysql> insert into service values('2019-07-15','B4','2019-07-17');
+     mysql> insert into service values('2019-08-17','B5','2019-08-19');
+
+b.)
+     mysql> Select * from customer where custID in(Select custid from bicycle where modelno in(select Modelno from bicyclemodel where manufacturer="Honda"));
+
+c.)
+     mysql> Select * from bicyclemodel where modelno in(select modelno from bicycle where custid in(select custid from customer where referrerId="C1"));
+
+d.)
+     mysql> select bm.manufacturer from bicycle as bi, bicyclemodel as bm where bi.modelno=bm.modelno  and bi.color="red";
+
+e.)
+     mysql> select modelno from bicycle where bicycleid in(select distinct bicycleid from service);
+
